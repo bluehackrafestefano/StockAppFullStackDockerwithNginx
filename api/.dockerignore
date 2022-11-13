@@ -1,0 +1,9 @@
+.git
+data/
+db.sqlite3
+.gitignore
+Dockerfile
+docker-compose.yml
+*.log
+env/
+static/

@@ -1,0 +1,60 @@
+version: '3.9'
+
+services:
+
+  nginx:
+    build: ./nginx
+    depends_on:
+      - web
+    env_file:
+      - .env
+    ports:
+      - 80:80
+    restart: "on-failure"
+    volumes:
+      - static_volume:/code/api/static
+
+  web:
+    build: ./api
+    command: sh -c 'python manage.py makemigrations &&
+                    python manage.py migrate --no-input &&
+                    python manage.py collectstatic --no-input &&
+                    gunicorn main.wsgi:application --bind 0.0.0.0:8000'
+    depends_on:
+      - db
+    env_file:
+      - .env
+    image: django_app
+    ports:
+      - 8000:8000
+    restart: "on-failure"
+    volumes:
+      - ./api:/code/api/
+      - static_volume:/code/api/static/
+
+  db:
+    env_file:
+      - .env
+    image: postgres
+    ports:
+      - 5432:5432
+    restart: "on-failure"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  client:
+    build: ./client
+    container_name: client
+    depends_on:
+      - web
+    ports:
+      - 3000:3000
+    restart: "on-failure"
+    volumes:
+      - ./client:/code/client
+      - node-modules:/code/client/node_modules
+
+volumes:
+  static_volume:
+  postgres_data:
+  node-modules:
