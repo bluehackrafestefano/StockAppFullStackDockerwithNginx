@@ -1,6 +1,6 @@
 from decouple import config
 
-from main.settings.base import BASE_DIR
+from main.settings.base import BASE_DIR, INSTALLED_APPS, MIDDLEWARE
 
 
 DEBUG = False
@@ -18,3 +18,17 @@ DATABASES = {
 }
 
 STATIC_ROOT = BASE_DIR / 'static/'
+
+THIRD_PARTY_APPS = [
+    "corsheaders",
+]
+
+INSTALLED_APPS += THIRD_PARTY_APPS
+
+THIRD_PARTY_MIDDLEWARE = [
+    "corsheaders.middleware.CorsMiddleware",
+]
+
+MIDDLEWARE += THIRD_PARTY_MIDDLEWARE
+
+CORS_ALLOW_ALL_ORIGINS = True
