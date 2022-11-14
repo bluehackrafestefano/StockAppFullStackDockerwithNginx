@@ -1,6 +1,6 @@
 pipeline {
 
-    agent { label "main" }
+    agent { label "master" }
 
     environment {
         ECR_REGISTRY = "215550833360.dkr.ecr.us-east-1.amazonaws.com"
