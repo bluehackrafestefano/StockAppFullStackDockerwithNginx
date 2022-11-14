@@ -44,7 +44,7 @@ pipeline {
                 sh 'docker push "${ECR_REGISTRY}/${APP_REPO_NAME}:latest"'
             }
         }
-
+    }
     //     stage('Create Infrastructure for the App'){
     //         steps {
     //             echo 'Creating Docker Swarm'
@@ -142,6 +142,4 @@ pipeline {
             // sh 'aws cloudformation delete-stack --region ${AWS_REGION} --stack-name ${AWS_STACK_NAME}'
         }
     }
-}
-
 }
